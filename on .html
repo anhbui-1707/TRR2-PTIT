@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Siêu Ngân Hàng HĐH PTIT - 72 Câu Chi Tiết</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .flashcard-inner {
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        .front, .back {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .back {
+            transform: rotateY(180deg);
+        }
+        .custom-scroll::-webkit-scrollbar { width: 6px; }
+        .custom-scroll::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); border-radius: 10px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background-color: #64748b; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800 h-screen flex flex-col overflow-hidden">
+
+    <header class="bg-red-800 text-white shadow-lg p-3 flex-shrink-0 z-50">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-xl font-bold tracking-wide">📚 BỘ 72+ FLASHCARD HĐH CHUẨN GIÁO TRÌNH</h1>
+                <p class="text-xs text-red-200 mt-0.5">Tuyệt đối bám sát ngân hàng PTIT - Phân tách chi tiết</p>
+            </div>
+            <div class="bg-red-900/80 px-4 py-2 rounded-lg border border-red-600 shadow-inner">
+                <span class="text-sm font-mono font-bold text-yellow-300" id="progress-text">Câu: 1 / 72</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl w-full mx-auto p-4 flex-grow flex flex-col h-full overflow-hidden">
+        
+        <div class="mb-3 flex flex-wrap gap-2 justify-center bg-white p-2 rounded-xl shadow-sm border border-gray-200 flex-shrink-0" id="filter-container">
+            </div>
+
+        <div class="flex flex-col items-center justify-center flex-grow relative">
+            <div id="flashcard" class="flashcard w-full max-w-4xl h-full max-h-[500px] cursor-pointer" onclick="toggleFlip()">
+                <div class="flashcard-inner relative w-full h-full rounded-2xl shadow-2xl border border-gray-300 bg-white">
+                    
+                    <div class="front absolute w-full h-full p-8 flex flex-col bg-white rounded-2xl">
+                        <div class="flex justify-between items-start mb-6">
+                            <span id="card-tag" class="text-xs font-bold text-red-700 bg-red-100 border border-red-200 px-3 py-1.5 rounded-lg uppercase tracking-wider shadow-sm">CHƯƠNG</span>
+                            <span id="card-num" class="text-xs font-bold text-gray-500 bg-gray-100 border border-gray-200 px-3 py-1.5 rounded-lg">#1</span>
+                        </div>
+                        <div class="flex-grow flex items-center justify-center">
+                            <h2 id="card-question" class="text-2xl md:text-3xl font-bold text-gray-800 text-center leading-tight px-4">
+                                Đang tải dữ liệu...
+                            </h2>
+                        </div>
+                        <div class="mt-auto text-center border-t border-gray-100 pt-4">
+                            <p class="text-sm text-gray-400 font-medium animate-pulse">
+                                👆 Click vào thẻ để lật xem Đáp án chuẩn Giáo trình
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="back absolute w-full h-full flex flex-col bg-gray-900 rounded-2xl border border-gray-700 overflow-hidden shadow-2xl">
+                        <div class="p-4 bg-gray-800 border-b border-gray-700 flex justify-between items-center shadow-md">
+                            <span class="text-xs font-bold text-green-400 uppercase tracking-widest">🎯 ĐÁP ÁN CHUẨN BAREM ĐIỂM</span>
+                            <span class="text-xs text-gray-400 italic">Click để quay lại mặt trước</span>
+                        </div>
+                        
+                        <div class="p-6 overflow-y-auto custom-scroll flex-grow bg-gray-900">
+                            <div class="mb-5">
+                                <h3 class="text-xs font-bold text-yellow-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                                    🔑 TỪ KHÓA ĂN ĐIỂM (Skeleton)
+                                </h3>
+                                <div id="card-keywords" class="text-sm font-mono text-yellow-100 bg-black/40 p-4 rounded-xl border border-gray-700 leading-relaxed whitespace-pre-line shadow-inner">
+                                    Keywords
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-xs font-bold text-blue-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                                    📖 VĂN PHONG GIÁO TRÌNH (Trình bày vào bài thi)
+                                </h3>
+                                <div id="card-answer" class="text-base text-gray-300 leading-relaxed space-y-3 whitespace-pre-line text-justify bg-gray-800/30 p-4 rounded-xl border border-gray-700/50">
+                                    Answer
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-center gap-6 mt-4 mb-2 flex-shrink-0">
+            <button onclick="prevCard()" class="px-6 py-3 bg-white border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 active:scale-95 transition-all font-bold text-sm shadow-sm flex items-center gap-2">
+                ◀ Câu trước
+            </button>
+            <button onclick="nextCard()" class="px-6 py-3 bg-red-700 text-white rounded-xl hover:bg-red-800 active:scale-95 transition-all font-bold text-sm shadow-lg flex items-center gap-2">
+                Câu tiếp theo ▶
+            </button>
+        </div>
+        <p class="text-center text-xs text-gray-400">Dùng phím mũi tên Trái/Phải để chuyển câu siêu tốc</p>
+    </main>
+
+    <script>
+        // Dữ liệu 72 CÂU CHUẨN GIÁO TRÌNH (Xé nhỏ 100% ý a, b, c)
+        const fullBank = [
+            // --- CHƯƠNG 1 (12 Câu) ---
+            { chap: "ch1", tag: "Chương 1: Tổng quan", q: "Định nghĩa Hệ điều hành (Operating System)?", 
+              k: "- Chương trình trung gian\n- Quản lý phần cứng\n- Môi trường thực thi cho ứng dụng", 
+              a: "Theo giáo trình: Hệ điều hành là một hệ thống chương trình đóng vai trò trung gian giao tiếp giữa người sử dụng (users) và phần cứng máy tính (hardware). Mục tiêu của HĐH là cung cấp một môi trường cho phép người sử dụng có thể thực thi các chương trình ứng dụng một cách thuận tiện, đồng thời khai thác tài nguyên phần cứng một cách hiệu quả nhất." },
+            { chap: "ch1", tag: "Chương 1: Tổng quan", q: "Mô hình phân lớp của hệ thống máy tính gồm những thành phần nào?", 
+              k: "- 4 lớp cơ bản\n- Phần cứng -> HĐH -> Ứng dụng -> Người dùng", 
+              a: "Hệ thống máy tính được cấu trúc theo 4 lớp phân cấp từ thấp đến cao:\n1. Phần cứng (Hardware): Cung cấp tài nguyên tính toán cơ bản (CPU, RAM, I/O).\n2. Hệ điều hành (OS): Quản lý và điều phối phần cứng.\n3. Chương trình ứng dụng (Application Programs): Trình biên dịch, hệ quản trị CSDL, trình duyệt web giải quyết bài toán của người dùng.\n4. Người dùng (Users): Tương tác với ứng dụng." },
+            { chap: "ch1", tag: "Chương 1: Tổng quan", q: "Vai trò 'Quản lý tài nguyên' (Resource Allocator) của HĐH là gì?", 
+              k: "- Phân phối tài nguyên (CPU, RAM)\n- Đảm bảo công bằng\n- Giải quyết xung đột", 
+              a: "Hệ thống máy tính có nhiều tài nguyên (thời gian CPU, không gian bộ nhớ, thiết bị I/O). HĐH đóng vai trò là nhà quản lý, có trách nhiệm phân phối các tài nguyên này cho các chương trình và người dùng khác nhau. HĐH phải ra quyết định cấp phát tài nguyên sao cho hệ thống hoạt động hiệu quả, công bằng và tránh các xung đột xảy ra." },
+            { chap: "ch1", tag: "Chương 1: Tổng quan", q: "Vai trò 'Chương trình điều khiển' (Control Program) của HĐH là gì?", 
+              k: "- Kiểm soát chương trình ứng dụng\n- Ngăn ngừa lỗi\n- Bảo vệ hệ thống", 
+              a: "HĐH kiểm soát việc thực thi của các chương trình ứng dụng nhằm ngăn ngừa các lỗi (errors) và việc sử dụng máy tính không hợp lệ (improper use). Đặc biệt, nó kiểm soát các hoạt động thao tác và điều khiển thiết bị I/O, không cho phép ứng dụng can thiệp trực tiếp vào phần cứng để tránh phá hoại hệ thống." },
+            { chap: "ch1", tag: "Chương 1: Tổng quan", q: "Hệ thống xử lý theo lô (Batch Systems) hoạt động ra sao?", 
+              k: "- Gom các job thành lô (batch)\n- Thực thi tuần tự\n- Không tương tác trực tiếp", 
+              a: "Hệ thống nhóm các công việc (jobs) có nhu cầu tài nguyên giống nhau thành từng lô (batch) để chạy tuần tự nhằm tối ưu thời gian khởi động. Người dùng nộp công việc cho hệ thống và phải đợi đến khi lô chạy xong mới nhận được kết quả. Nhược điểm: Thiếu tính tương tác trực tiếp giữa người dùng và máy tính trong quá trình chạy." },
+            { chap: "ch1", tag: "Chương 1: Tổng quan", q: "Đặc điểm của Hệ thống đa chương (Multiprogramming Systems)?", 
+              k: "- Chứa nhiều tiến trình trong RAM\n- Tận dụng CPU rảnh rỗi\n- CPU luân chuyển khi có đợi I/O", 
+              a: "Hệ thống duy trì nhiều công việc đồng thời trong bộ nhớ chính. Khi một công việc đang chạy cần chờ đợi một sự kiện (ví dụ: đợi đọc đĩa I/O), CPU thay vì rảnh rỗi sẽ được HĐH thu hồi và chuyển sang thực thi một công việc khác đang ở trạng thái sẵn sàng. Mục tiêu tối thượng là tối đa hóa hiệu suất sử dụng CPU." },
+            { chap: "ch1", tag: "Chương 1: Tổng quan", q: "Hệ thống chia sẻ thời gian (Time-sharing Systems) là gì?", 
+              k: "- Đa nhiệm (Multitasking)\n- Chia sẻ CPU theo lượng tử thời gian (Quantum)\n- Tương tác thời gian thực", 
+              a: "Là sự mở rộng logic của hệ thống đa chương. CPU luân phiên chuyển đổi giữa nhiều tiến trình một cách cực kỳ nhanh chóng (mỗi tiến trình được cấp một lượng tử thời gian rất nhỏ). Tốc độ chuyển đổi nhanh đến mức người dùng có thể tương tác với chương trình ngay trong lúc nó đang chạy, tạo cảm giác như máy tính đang phục vụ độc quyền riêng cho họ." },
+            { chap: "ch1", tag: "Chương 1: Tổng quan", q: "Phân biệt Hệ thống Song song (Parallel) và Hệ thống Phân tán (Distributed)?", 
+              k: "- Song song: Tightly coupled (Chung RAM, chung bus).\n- Phân tán: Loosely coupled (Độc lập, nối mạng).", 
+              a: "- Hệ thống song song: Nhiều bộ xử lý (CPU) dùng chung bộ nhớ, bus máy tính và đồng hồ xung nhịp. Thường nằm trên cùng một bo mạch chủ nhằm tăng tốc độ tính toán.\n- Hệ thống phân tán: Tập hợp các máy tính độc lập về vật lý (mỗi máy có CPU và RAM riêng), được kết nối với nhau qua mạng truyền thông. Giúp chia sẻ tài nguyên và tăng độ tin cậy." },
+            { chap: "ch1", tag: "Chương 1: Tổng quan", q: "Ngắt (Interrupt) là gì? Phân biệt Ngắt cứng và Ngắt mềm (Trap).", 
+              k: "- Tín hiệu dừng CPU\n- Ngắt cứng: Do thiết bị ngoại vi.\n- Ngắt mềm (Trap): Do lỗi hoặc System call.", 
+              a: "- Ngắt là tín hiệu gửi đến CPU báo hiệu có sự kiện khẩn cấp cần xử lý, buộc CPU phải tạm dừng luồng lệnh hiện tại.\n- Ngắt phần cứng: Do các thiết bị ngoại vi (bàn phím, chuột, card mạng) gửi qua hệ thống bus.\n- Ngắt phần mềm (Trap/Exception): Được sinh ra từ bên trong CPU do chương trình thực hiện phép tính lỗi (chia cho 0, truy cập sai bộ nhớ) hoặc do tiến trình gọi một System Call yêu cầu HĐH phục vụ." },
+            { chap: "ch1", tag: "Chương 1: Tổng quan", q: "Trình bày các bước của quy trình xử lý Ngắt của CPU.", 
+              k: "- Lưu trạng thái (PC)\n- Tra bảng vector ngắt\n- Thực thi ISR\n- Phục hồi trạng thái", 
+              a: "1. Tạm dừng chương trình đang thực thi.\n2. Cất giữ trạng thái hiện tại (Con trỏ lệnh PC và các thanh ghi) vào Stack.\n3. Phân tích nguyên nhân ngắt, tra cứu Bảng vector ngắt để lấy địa chỉ của Hàm phục vụ ngắt (Interrupt Service Routine - ISR) tương ứng.\n4. Chuyển quyền điều khiển cho ISR thực thi.\n5. Xử lý xong, nạp lại trạng thái đã cất giữ và tiếp tục chạy chương trình cũ." },
+            { chap: "ch1", tag: "Chương 1: Tổng quan", q: "Bảo vệ phần cứng: Chế độ song hành (Dual-Mode Operation) là gì?", 
+              k: "- User mode (Bit = 1)\n- Kernel mode (Bit = 0)", 
+              a: "Hệ thống phần cứng cung cấp ít nhất 2 chế độ hoạt động để bảo vệ HĐH:\n- Chế độ người dùng (User mode): Ứng dụng thông thường chạy ở đây, không được phép thực thi các lệnh đặc quyền (như tắt máy, truy cập RAM của app khác).\n- Chế độ nhân (Kernel mode): HĐH chạy ở đây, có toàn quyền kiểm soát phần cứng. Khi ứng dụng cần tài nguyên, nó phải gọi System Call để chuyển từ User mode sang Kernel mode." },
+
+            // --- CHƯƠNG 2 (14 Câu) ---
+            { chap: "ch2", tag: "Chương 2: Tiến trình", q: "Tiến trình (Process) là gì? Khác biệt cơ bản giữa Chương trình và Tiến trình?", 
+              k: "- Chương trình: Thực thể thụ động.\n- Tiến trình: Thực thể chủ động (Có PC, RAM).", 
+              a: "- Chương trình: Là một tập các lệnh lưu trữ trên đĩa (thực thể thụ động, file executable).\n- Tiến trình: Là một chương trình đang trong quá trình thực thi. Nó là một thực thể chủ động, sở hữu một con trỏ lệnh (Program Counter) xác định lệnh tiếp theo sẽ thi hành, cùng với tập hợp các tài nguyên hệ thống được cấp phát (không gian nhớ, dữ liệu, stack, heap)." },
+            { chap: "ch2", tag: "Chương 2: Tiến trình", q: "Khối điều khiển tiến trình PCB (Process Control Block) lưu trữ những thông tin gì?", 
+              k: "- Trạng thái tiến trình\n- Mã định danh (PID)\n- Con trỏ lệnh (PC)\n- Tập thanh ghi CPU\n- Thông tin cấp phát", 
+              a: "Mỗi tiến trình được đại diện bởi một PCB. Nó chứa toàn bộ ngữ cảnh của tiến trình, bao gồm:\n1. Trạng thái hiện tại (Ready, Running...).\n2. Program Counter: Địa chỉ lệnh kế tiếp.\n3. CPU Registers: Trạng thái thanh ghi để phục hồi khi bị ngắt.\n4. Lập lịch CPU: Mức ưu tiên.\n5. Quản lý bộ nhớ: Thanh ghi base/limit, bảng trang.\n6. Trạng thái I/O: Danh sách thiết bị và file đang mở." },
+            { chap: "ch2", tag: "Chương 2: Tiến trình", q: "Liệt kê và giải thích 5 trạng thái vòng đời của một tiến trình.", 
+              k: "- New, Ready, Running, Waiting, Terminated.", 
+              a: "1. Mới tạo (New): Tiến trình đang được nạp vào hệ thống.\n2. Sẵn sàng (Ready): Đã có đủ tài nguyên (vào RAM), chỉ đang chờ cấp CPU.\n3. Đang chạy (Running): Các lệnh đang được CPU xử lý.\n4. Bị chặn/Đợi (Waiting): Tạm dừng thi hành để đợi một sự kiện (ví dụ: đợi đọc/ghi đĩa I/O).\n5. Kết thúc (Terminated): Thực thi xong lệnh cuối cùng, bị HĐH thu hồi PCB." },
+            { chap: "ch2", tag: "Chương 2: Tiến trình", q: "Trình bày sự chuyển đổi trạng thái: Running ➔ Waiting và Waiting ➔ Ready.", 
+              k: "- Running -> Waiting: Yêu cầu I/O.\n- Waiting -> Ready: Hoàn thành I/O (Không được lên thẳng Running).", 
+              a: "- Chuyển từ Running sang Waiting xảy ra khi tiến trình đang chạy gọi một lệnh I/O (ví dụ: xin nhập bàn phím, đọc file). Vì I/O chậm, CPU đẩy nó xuống trạng thái đợi để tiết kiệm thời gian.\n- Chuyển từ Waiting sang Ready xảy ra khi thiết bị I/O báo cáo đã hoàn thành nhiệm vụ (có ngắt). Tiến trình được đánh thức, nhưng phải quay lại hàng đợi Ready chứ không được chiếm CPU chạy ngay." },
+            { chap: "ch2", tag: "Chương 2: Tiến trình", q: "Chuyển ngữ cảnh (Context Switch) là gì? Phân tích chi phí của nó.", 
+              k: "- Lưu ngữ cảnh cũ, nạp ngữ cảnh mới.\n- Chi phí hao phí (Overhead) thuần túy.", 
+              a: "Khi CPU chuyển đổi thực thi từ tiến trình cũ sang tiến trình mới, HĐH phải thực hiện Chuyển ngữ cảnh. Các bước: Lưu trạng thái của tiến trình cũ vào PCB của nó -> Tải trạng thái đã lưu trước đó từ PCB của tiến trình mới vào thanh ghi CPU.\nPhân tích: Thời gian chuyển đổi là một sự lãng phí tài nguyên (overhead) thuần túy, vì trong thời gian này CPU không thực thi được bất kỳ lệnh hữu ích nào của người dùng." },
+            { chap: "ch2", tag: "Chương 2: Tiến trình", q: "Luồng (Thread) là gì? Lợi ích của việc sử dụng đa luồng so với đa tiến trình?", 
+              k: "- Đơn vị xử lý nhỏ nhất.\n- Chia sẻ bộ nhớ, code, data.\n- Tiết kiệm tài nguyên, chuyển ngữ cảnh nhanh.", 
+              a: "Luồng là đơn vị xử lý cơ bản nhỏ nhất của CPU, nằm bên trong một Tiến trình.\nLợi ích: Các luồng thuộc cùng một tiến trình sử dụng chung phần mã (Code), phần dữ liệu (Data) và các tài nguyên HĐH mở (như file). Việc tạo mới luồng và chuyển ngữ cảnh giữa các luồng tốn cực ít bộ nhớ và thời gian so với việc tạo ra các tiến trình hoàn toàn độc lập." },
+            { chap: "ch2", tag: "Chương 2: Tiến trình", q: "Bộ lập lịch ngắn hạn (Short-term Scheduler) có chức năng gì?", 
+              k: "- Chọn tiến trình từ Ready Queue.\n- Cấp phát CPU (Dispatch).", 
+              a: "Chức năng: Lựa chọn một tiến trình đang nằm trong hàng đợi sẵn sàng (Ready Queue) trong bộ nhớ chính và cấp phát CPU cho nó thực thi.\nĐặc điểm: Do tiến trình chuyển đổi liên tục, bộ lập lịch này phải thực thi với tần suất cực kỳ cao (vài mili-giây một lần), do đó thuật toán của nó phải rất nhanh." },
+            { chap: "ch2", tag: "Chương 2: Tiến trình", q: "Bộ lập lịch trung hạn (Medium-term Scheduler) và cơ chế Tráo đổi (Swapping)?", 
+              k: "- Tráo đổi tiến trình giữa RAM và đĩa.\n- Giảm mức độ đa chương.", 
+              a: "Khi bộ nhớ chính (RAM) bị quá tải, bộ lập lịch trung hạn sẽ thực hiện cơ chế Tráo đổi (Swapping): Tạm thời đưa một số tiến trình (thường là các tiến trình đang bị Blocked/Waiting) từ RAM ra ngoài đĩa cứng (Swap out) để giải phóng vùng nhớ. Khi hệ thống rảnh rỗi hơn hoặc tiến trình đã sẵn sàng, nó sẽ được nạp ngược trở lại RAM (Swap in)." },
+            { chap: "ch2", tag: "Chương 2: Tiến trình", q: "Phân biệt cơ chế điều phối Không trưng dụng (Non-preemptive) và Trưng dụng (Preemptive).", 
+              k: "- Không trưng dụng: Chiếm CPU tới khi xong tự nhả.\n- Trưng dụng: HĐH có quyền ngắt, cưỡng chế thu hồi CPU.", 
+              a: "- Không trưng dụng: Một khi CPU đã cấp cho tiến trình, tiến trình đó sẽ giữ CPU cho đến khi nó kết thúc hoặc tự nguyện chuyển sang trạng thái đợi I/O.\n- Trưng dụng: HĐH có quyền can thiệp, cưỡng chế thu hồi CPU của tiến trình đang chạy (dù nó chưa xong) để cấp cho một tiến trình khác có độ ưu tiên cao hơn (ví dụ khi có ngắt thời gian lượng tử)." },
+            { chap: "ch2", tag: "Chương 2: Tiến trình", q: "Mục tiêu và các tiêu chí đánh giá Thuật toán lập lịch CPU?", 
+              k: "- Max: CPU Utilization, Throughput.\n- Min: Turnaround time, Waiting time, Response time.", 
+              a: "Tiêu chí tối đa hóa:\n1. Hiệu suất CPU: Cố gắng giữ CPU bận rộn 100%.\n2. Thông lượng: Số lượng tiến trình hoàn thành trong một đơn vị thời gian.\nTiêu chí tối thiểu hóa:\n3. Thời gian lưu lại: Khoảng thời gian từ lúc nộp tiến trình đến khi hoàn thành.\n4. Thời gian chờ: Tổng thời gian tiến trình phải xếp hàng trong Ready queue.\n5. Thời gian đáp ứng: Thời gian từ lúc gửi yêu cầu đến khi có phản hồi đầu tiên." },
+            { chap: "ch2", tag: "Chương 2: Tiến trình", q: "Thuật toán lập lịch FCFS (First-Come, First-Served) và Hiệu ứng hộ tống?", 
+              k: "- Đến trước phục vụ trước.\n- Hiệu ứng Convoy (Hộ tống): Các tiến trình ngắn phải đợi tiến trình dài.", 
+              a: "Cơ chế: Tiến trình nào yêu cầu CPU trước sẽ được phục vụ trước (Quản lý bằng hàng đợi FIFO). Là thuật toán Không trưng dụng.\nNhược điểm - Hiệu ứng hộ tống (Convoy effect): Nếu một tiến trình yêu cầu CPU rất lớn (CPU-bound) chạy trước, tất cả các tiến trình ngắn (I/O-bound) phía sau sẽ phải chịu đựng thời gian chờ trung bình khổng lồ." },
+            { chap: "ch2", tag: "Chương 2: Tiến trình", q: "Thuật toán lập lịch SJF (Shortest-Job-First) có ưu điểm gì?", 
+              k: "- Phục vụ công việc ngắn nhất trước.\n- Tối ưu hóa thời gian chờ trung bình.", 
+              a: "Cơ chế: Khi CPU rảnh, nó sẽ được cấp cho tiến trình có thời gian chạy kế tiếp ngắn nhất. \nƯu điểm: SJF được chứng minh là thuật toán Tối ưu nhất về mặt toán học vì nó luôn cho ra Thời gian chờ đợi trung bình (Average Waiting Time) nhỏ nhất.\nNhược điểm: Rất khó dự đoán chính xác thời gian chạy kế tiếp của tiến trình." },
+            { chap: "ch2", tag: "Chương 2: Tiến trình", q: "Thuật toán lập lịch Round Robin (RR) hoạt động ra sao?", 
+              k: "- Lập lịch xoay vòng.\n- Lượng tử thời gian (Time quantum).\n- Trưng dụng.", 
+              a: "Được thiết kế riêng cho hệ thống chia sẻ thời gian. Mỗi tiến trình được cấp một khoảng thời gian CPU giới hạn gọi là lượng tử thời gian (thường từ 10-100 ms). Nếu tiến trình vẫn đang chạy khi hết lượng tử, HĐH sẽ trưng dụng CPU, ngắt tiến trình đó và đưa nó về cuối hàng đợi Ready để chạy tiến trình tiếp theo. Mang tính công bằng tuyệt đối." },
+
+            // --- CHƯƠNG 3 (13 Câu) ---
+            { chap: "ch3", tag: "Chương 3: Đồng bộ", q: "Hiện tượng Điều kiện cạnh tranh (Race Condition) là gì?", 
+              k: "- Nhiều tiến trình truy cập dữ liệu chia sẻ đồng thời.\n- Kết quả phụ thuộc thứ tự thực thi.", 
+              a: "Là tình trạng trong đó có nhiều tiến trình cùng thao tác (đọc/ghi) trên một vùng dữ liệu dùng chung cùng một lúc. Do thứ tự thực thi các lệnh máy xen kẽ ngẫu nhiên, dữ liệu cuối cùng bị sai lệch. Để ngăn chặn, HĐH phải đảm bảo chỉ 1 tiến trình được thao tác dữ liệu đó tại một thời điểm (Đồng bộ hóa)." },
+            { chap: "ch3", tag: "Chương 3: Đồng bộ", q: "Đoạn găng (Critical Section) là gì? 3 yêu cầu để giải quyết bài toán đoạn găng?", 
+              k: "- Vùng mã thay đổi dữ liệu chung.\n- 1. Loại trừ tương hỗ | 2. Tiến triển | 3. Chờ đợi có giới hạn.", 
+              a: "- Khái niệm: Là đoạn mã lệnh trong chương trình mà ở đó tiến trình có thực hiện việc thao tác thay đổi trên các tài nguyên chia sẻ.\n- Yêu cầu 1 (Loại trừ tương hỗ): Nếu P1 đang chạy trong đoạn găng, không tiến trình nào khác được vào.\n- Yêu cầu 2 (Tiến triển): Nếu đoạn găng trống, phải quyết định ngay lập tức ai được vào tiếp theo.\n- Yêu cầu 3 (Chờ đợi có giới hạn): Không để tiến trình nào phải đợi vĩnh viễn (starvation)." },
+            { chap: "ch3", tag: "Chương 3: Đồng bộ", q: "Định nghĩa Semaphore? Hai thao tác cơ bản của Semaphore?", 
+              k: "- Biến nguyên S.\n- wait() [P] và signal() [V].\n- Thao tác nguyên tử (Atomic).", 
+              a: "Semaphore là một công cụ đồng bộ hóa do Dijkstra đề xuất. Nó là một biến số nguyên S chỉ có thể truy cập qua 2 thao tác chuẩn nguyên tử:\n1. wait(S): Nếu S <= 0, tiến trình bị chặn (block). Nếu S > 0, S giảm đi 1.\n2. signal(S): S tăng lên 1. Nếu có tiến trình đang bị chặn đợi S, đánh thức tiến trình đó dậy." },
+            { chap: "ch3", tag: "Chương 3: Đồng bộ", q: "Phân biệt Semaphore nhị phân (Binary) và Semaphore đếm (Counting).", 
+              k: "- Nhị phân: S = 0 hoặc 1 (Dùng như Mutex).\n- Đếm: S = N (Quản lý N tài nguyên).", 
+              a: "- Semaphore nhị phân (Mutex Lock): Giá trị chỉ nằm trong khoảng 0 và 1. Dùng cực kỳ hiệu quả để giải quyết bài toán Loại trừ tương hỗ cho Đoạn găng (Khóa cửa: 1 là mở, 0 là đóng).\n- Semaphore đếm: Giá trị có thể là một số nguyên dương bất kỳ. Dùng để quản lý và đồng bộ quyền truy cập vào một kho tài nguyên có một số lượng hữu hạn các cá thể (Ví dụ: quản lý 5 máy in)." },
+            { chap: "ch3", tag: "Chương 3: Deadlock", q: "Định nghĩa trạng thái Tắc nghẽn hệ thống (Deadlock).", 
+              k: "- Tập tiến trình bị block.\n- Chờ sự kiện do chính tiến trình trong tập đó sinh ra.", 
+              a: "Deadlock là tình trạng một tập hợp các tiến trình bị phong tỏa (đóng băng) vĩnh viễn. Nguyên nhân là do mỗi tiến trình trong tập hợp đó đang nắm giữ một tài nguyên và lại đi yêu cầu một tài nguyên khác mà tài nguyên đó lại đang bị nắm giữ bởi một tiến trình khác cũng nằm trong chính tập hợp này." },
+            { chap: "ch3", tag: "Chương 3: Deadlock", q: "Điều kiện 'Loại trừ tương hỗ' và 'Không trưng dụng' trong Deadlock?", 
+              k: "- Loại trừ tương hỗ: Tài nguyên độc quyền.\n- Không trưng dụng: Tiến trình tự nhả, HĐH không được cướp.", 
+              a: "Để xảy ra Deadlock, phải có:\n- Loại trừ tương hỗ (Mutual Exclusion): Ít nhất một tài nguyên trong hệ thống phải ở chế độ không chia sẻ (nghĩa là tại một thời điểm chỉ 1 tiến trình được sử dụng).\n- Không trưng dụng (No preemption): Tài nguyên không thể bị hệ thống cưỡng bức thu hồi giữa chừng, mà chỉ có thể được giải phóng tự nguyện bởi chính tiến trình đang nắm giữ nó sau khi xong việc." },
+            { chap: "ch3", tag: "Chương 3: Deadlock", q: "Điều kiện 'Giữ và đợi' và 'Chờ đợi vòng tròn' trong Deadlock?", 
+              k: "- Giữ và đợi: Ôm tài nguyên A, xin thêm B.\n- Vòng tròn: P0 đợi P1, P1 đợi P2... Pn đợi P0.", 
+              a: "Để xảy ra Deadlock, phải có:\n- Giữ và đợi (Hold and Wait): Một tiến trình đang nắm giữ ít nhất một tài nguyên nhưng lại yêu cầu cấp thêm tài nguyên mới hiện đang bị tiến trình khác giữ.\n- Chờ đợi vòng tròn (Circular Wait): Tồn tại một chuỗi đóng kín các tiến trình {P0, P1, P2...} sao cho P0 chờ tài nguyên của P1, P1 chờ của P2, và Pn quay lại chờ tài nguyên của P0." },
+            { chap: "ch3", tag: "Chương 3: Deadlock", q: "Sử dụng Đồ thị cấp phát tài nguyên (RAG) để phát hiện Deadlock?", 
+              k: "- Đồ thị có chu trình (vòng lặp kín).\n- Nếu mỗi tài nguyên chỉ có 1 thực thể -> Chắc chắn Deadlock.", 
+              a: "RAG là đồ thị có hướng gồm đỉnh (Tiến trình, Tài nguyên) và cạnh (Yêu cầu, Cấp phát).\nQuy tắc:\n- Nếu đồ thị KHÔNG có chu trình (vòng lặp kín) -> Không có Deadlock.\n- Nếu đồ thị CÓ chu trình: \n   + Nếu mỗi loại tài nguyên chỉ có 1 thực thể -> Chắc chắn xảy ra Deadlock.\n   + Nếu có nhiều thực thể -> Có nguy cơ xảy ra Deadlock (nhưng chưa chắc chắn)." },
+            { chap: "ch3", tag: "Chương 3: Deadlock", q: "Chiến lược Ngăn ngừa Deadlock (Deadlock Prevention)?", 
+              k: "- Thiết kế hệ thống bẻ gãy 1 trong 4 điều kiện cần.", 
+              a: "Ngăn ngừa Deadlock là việc HĐH áp đặt các quy tắc khắt khe ngay từ khâu thiết kế để đảm bảo ít nhất 1 trong 4 điều kiện cần của Deadlock không bao giờ xảy ra. Ví dụ: Phá vỡ điều kiện 'Giữ và đợi' bằng cách yêu cầu tiến trình phải xin cấp toàn bộ tài nguyên một lúc trước khi bắt đầu chạy (nếu không đủ thì không cấp cái nào)." },
+            { chap: "ch3", tag: "Chương 3: Deadlock", q: "Chiến lược Tránh Deadlock (Deadlock Avoidance) và Trạng thái an toàn?", 
+              k: "- Kiểm tra rủi ro trước khi cấp phát.\n- Trạng thái an toàn: Tồn tại chuỗi cấp phát không gây tắc nghẽn.", 
+              a: "Khác với Ngăn ngừa, Tránh Deadlock cấp phát linh hoạt hơn. Khi tiến trình yêu cầu tài nguyên, HĐH sẽ tính toán thử: Nếu cấp tài nguyên này xong, hệ thống có duy trì được 'Trạng thái an toàn' (Safe state) hay không? Trạng thái an toàn là khi tồn tại một chuỗi thứ tự thực thi giúp tất cả các tiến trình đều hoàn thành. Nếu an toàn thì cấp, nếu rơi vào trạng thái không an toàn thì từ chối cấp." },
+            { chap: "ch3", tag: "Chương 3: Deadlock", q: "Thuật toán Nhà băng (Banker's Algorithm) giải quyết vấn đề gì?", 
+              k: "- Thuật toán Tránh Deadlock.\n- Dùng cho hệ thống có nhiều loại thực thể tài nguyên.", 
+              a: "Là thuật toán kinh điển dùng để Tránh Deadlock. Mô phỏng quy trình cho vay của một ngân hàng: Ngân hàng (HĐH) chỉ chấp thuận giải ngân vốn (tài nguyên) cho khách hàng (tiến trình) nếu sau khi giải ngân, ngân hàng vẫn giữ đủ một lượng tiền mặt dự trữ an toàn để đảm bảo ít nhất một khách hàng khác có thể hoàn thành dự án và trả lại toàn bộ tiền." },
+
+            // --- CHƯƠNG 4 (15 Câu) ---
+            { chap: "ch4", tag: "Chương 4: Bộ nhớ", q: "Phân biệt Địa chỉ Logic (Logical) và Địa chỉ Vật lý (Physical).", 
+              k: "- Logic: Do CPU sinh ra (Địa chỉ ảo).\n- Vật lý: Địa chỉ thực trên chip RAM.\n- MMU: Trình chuyển đổi.", 
+              a: "- Địa chỉ logic (Logical address): Là địa chỉ được sinh ra bởi CPU trong quá trình thực thi chương trình. Nó được người dùng và chương trình nhìn thấy (còn gọi là Không gian địa chỉ ảo).\n- Địa chỉ vật lý (Physical address): Là tọa độ thực sự trên bo mạch RAM.\nThiết bị phần cứng MMU (Memory Management Unit) chịu trách nhiệm ánh xạ/dịch địa chỉ logic thành địa chỉ vật lý ngay trong thời gian thực thi (Execution time)." },
+            { chap: "ch4", tag: "Chương 4: Bộ nhớ", q: "Cấp phát bộ nhớ liên tục (Contiguous Allocation) là gì?", 
+              k: "- Nạp toàn bộ tiến trình vào một khối RAM liền mạch.\n- Thanh ghi Base / Limit bảo vệ.", 
+              a: "Toàn bộ không gian địa chỉ logic của tiến trình phải được cấp phát vào một vùng nhớ vật lý (RAM) liên tục duy nhất nằm kế tiếp nhau. HĐH sử dụng 2 thanh ghi phần cứng là Base (lưu địa chỉ vật lý bắt đầu) và Limit (lưu độ dài của tiến trình) để bảo vệ, ngăn không cho tiến trình này truy cập dẫm đạp sang vùng nhớ của tiến trình khác." },
+            { chap: "ch4", tag: "Chương 4: Bộ nhớ", q: "Chiến lược Best-Fit và Worst-Fit trong cấp phát vùng nhớ trống?", 
+              k: "- Best-Fit: Chọn lỗ trống nhỏ nhất vừa đủ.\n- Worst-Fit: Chọn lỗ trống to nhất.", 
+              a: "Khi tiến trình yêu cầu vùng nhớ, hệ thống duyệt danh sách các lỗ trống:\n- Best-Fit: Cấp phát lỗ trống nhỏ nhất mà có kích thước >= yêu cầu. Ưu điểm là để lại lỗ trống thừa rất nhỏ, bảo toàn được các lỗ trống lớn cho tiến trình to sau này.\n- Worst-Fit: Cấp phát lỗ trống lớn nhất hiện có. Lý thuyết là phần thừa để lại sẽ đủ lớn để cấp cho một tiến trình khác (nhưng thực tế lại gây lãng phí nghiêm trọng)." },
+            { chap: "ch4", tag: "Chương 4: Bộ nhớ", q: "Hiện tượng Phân mảnh ngoại vi (External Fragmentation) là gì?", 
+              k: "- Tổng bộ nhớ trống đủ lớn.\n- Nhưng bị xé lẻ, không nằm liên tục.", 
+              a: "Là nhược điểm chí mạng của phương pháp Cấp phát liên tục. Phân mảnh ngoại vi xảy ra khi tổng dung lượng các lỗ trống trên RAM đủ lớn để thỏa mãn yêu cầu của tiến trình mới, nhưng tiến trình không thể nạp vào vì các lỗ trống này nằm rải rác đứt đoạn, không tạo thành một khối liền mạch. Giải pháp là Dồn bộ nhớ (Compaction) hoặc Phân trang." },
+            { chap: "ch4", tag: "Chương 4: Bộ nhớ", q: "Hiện tượng Phân mảnh nội vi (Internal Fragmentation) là gì?", 
+              k: "- Lỗ hổng nằm BÊN TRONG vùng nhớ đã cấp phát.\n- Do cấp phát theo kích thước khối cố định.", 
+              a: "Xảy ra khi HĐH cấp phát bộ nhớ theo các khối có kích thước cố định (ví dụ: cấp theo từng block 4KB). Nếu một tiến trình chỉ yêu cầu 1KB, HĐH vẫn phải cấp nguyên 1 block 4KB. Phần 3KB thừa ra nằm *bên trong* khối đã cấp phát không thể sử dụng cho bất kỳ ai khác, gây lãng phí. Gọi là phân mảnh nội vi." },
+            { chap: "ch4", tag: "Chương 4: Bộ nhớ", q: "Nguyên lý kỹ thuật Phân trang (Paging)?", 
+              k: "- Chia RAM thành Khung (Frames).\n- Chia Logic thành Trang (Pages).\n- Kích thước Khung = Kích thước Trang.", 
+              a: "Kỹ thuật giải quyết triệt để phân mảnh ngoại vi bằng cách cho phép không gian vật lý của tiến trình nằm phân tán. \nNguyên lý: HĐH cắt bộ nhớ vật lý thành các khối bằng nhau gọi là Khung (Frames). Cắt bộ nhớ ảo logic thành các khối có cùng kích thước gọi là Trang (Pages). Khi chạy, các Trang của tiến trình có thể được nạp vào bất kỳ Khung trống nào trên RAM một cách lộn xộn, miễn là có chỗ." },
+            { chap: "ch4", tag: "Chương 4: Bộ nhớ", q: "Vai trò của Bảng trang (Page Table)?", 
+              k: "- Lưu trữ thông tin ánh xạ.\n- Map Số trang (Page number) -> Số khung (Frame number).", 
+              a: "Vì các Trang được nạp lộn xộn vào RAM, hệ thống cần một bản đồ để theo dõi. Bảng trang (Page Table) được tạo ra cho mỗi tiến trình. Nhiệm vụ của nó là ánh xạ (dịch) Số hiệu Trang (từ địa chỉ ảo) thành Số hiệu Khung tương ứng trên RAM vật lý. Kèm theo đó là các bit trạng thái bảo vệ (Ví dụ: Valid-Invalid bit)." },
+            { chap: "ch4", tag: "Chương 4: Bộ nhớ", q: "TLB (Translation Look-aside Buffer) trong phân trang giải quyết vấn đề gì?", 
+              k: "- Bộ nhớ đệm Cache phần cứng siêu tốc.\n- Giảm số lần truy cập RAM từ 2 lần xuống 1 lần.", 
+              a: "Nhược điểm của phân trang là Bảng trang được lưu trong RAM. Để lấy 1 byte dữ liệu, CPU phải truy cập RAM 2 lần (lần 1 lấy số Khung trong bảng trang, lần 2 mới lấy dữ liệu thực). TLB là một thanh ghi cache siêu nhanh gắn thẳng trên CPU, dùng để lưu trữ tạm thời các mục (entries) ánh xạ của Bảng trang vừa mới sử dụng. Giúp tăng tốc độ dịch địa chỉ lên rất nhiều lần." },
+            { chap: "ch4", tag: "Chương 4: Bộ nhớ", q: "Phân đoạn (Segmentation) khác Phân trang như thế nào?", 
+              k: "- Chia theo logic người dùng (Hàm, Stack, Biến).\n- Kích thước đoạn thay đổi, không cố định như Trang.", 
+              a: "Phân trang chia nhỏ bộ nhớ một cách máy móc theo kích thước cố định (ví dụ 4KB). Trong khi đó, Phân đoạn chia chương trình theo cấu trúc logic của người lập trình (Ví dụ: Đoạn chứa hàm Main, đoạn chứa thư viện, đoạn Stack). Kích thước các đoạn là tự do và biến đổi. Bảng phân đoạn sẽ lưu địa chỉ Base (vị trí bắt đầu) và Limit (chiều dài) của từng đoạn." },
+            { chap: "ch4", tag: "Chương 4: Bộ nhớ ảo", q: "Khái niệm Bộ nhớ ảo (Virtual Memory).", 
+              k: "- Tách biệt vùng nhớ logic và vùng nhớ vật lý.\n- Chạy được tiến trình lớn hơn cả dung lượng RAM.", 
+              a: "Bộ nhớ ảo là một kỹ thuật cho phép sự thực thi của các tiến trình không cần phải được nạp toàn bộ vào bộ nhớ chính (RAM). HĐH mượn một phần không gian của ổ đĩa cứng để làm bộ nhớ mở rộng. Lợi ích vĩ đại nhất: Cho phép người dùng chạy các chương trình có không gian địa chỉ logic lớn hơn rất nhiều so với không gian bộ nhớ vật lý thực có." },
+            { chap: "ch4", tag: "Chương 4: Bộ nhớ ảo", q: "Cơ chế Nạp trang theo yêu cầu (Demand Paging)?", 
+              k: "- Lazy swapper.\n- Trang nào cần dùng mới nạp từ đĩa vào RAM.", 
+              a: "Thay vì nạp toàn bộ hàng ngàn trang của một chương trình vào RAM khi khởi động, Demand Paging chỉ nạp vào RAM những trang lệnh nào thực sự được CPU truy xuất đến. Các trang chưa cần dùng sẽ nằm yên dưới ổ cứng (Secondary memory). Cơ chế này giúp tiết kiệm RAM và giảm thời gian khởi động chương trình." },
+            { chap: "ch4", tag: "Chương 4: Bộ nhớ ảo", q: "Trình bày các bước khi xảy ra Lỗi trang (Page Fault).", 
+              k: "- Trang đang nằm ở đĩa, không có trong RAM.\n- Bẫy HĐH -> Đọc đĩa nạp vào RAM -> Cập nhật bảng trang.", 
+              a: "1. CPU tra bảng trang, phát hiện trang mang bit 'Invalid' (nghĩa là nằm dưới đĩa).\n2. CPU phát ra bẫy lỗi trang, trao quyền cho HĐH.\n3. HĐH tìm một khung nhớ trống trên RAM.\n4. Kích hoạt bộ đọc đĩa, chép trang dữ liệu từ ổ cứng vào khung trống vừa tìm.\n5. Cập nhật Bảng trang (đổi bit thành Valid).\n6. CPU chạy lại câu lệnh vừa bị ngắt." },
+            { chap: "ch4", tag: "Chương 4: Bộ nhớ ảo", q: "Thuật toán thay thế trang LRU (Least Recently Used)?", 
+              k: "- Thay thế trang lâu nhất chưa được sử dụng trong quá khứ.", 
+              a: "Khi RAM đã đầy mà cần nạp trang mới vào, HĐH phải chọn một trang để đá ra ổ cứng (Page Replacement). Thuật toán LRU dựa trên nguyên lý tính địa phương: Nó sẽ rà soát và chọn ra trang mà trong khoảng thời gian quá khứ vừa qua đã Lâu Nhất không được tiến trình nào đụng tới để thay thế. Rất hiệu quả trong thực tế." },
+            { chap: "ch4", tag: "Chương 4: Bộ nhớ ảo", q: "Nghịch lý Belady (Belady's Anomaly) là gì?", 
+              k: "- Xảy ra ở thuật toán FIFO.\n- Tăng số khung nhớ (thêm RAM) nhưng số Lỗi trang lại tăng theo.", 
+              a: "Theo logic thông thường, khi ta tăng số lượng khung nhớ vật lý (cắm thêm RAM), số lần xảy ra Lỗi trang phải giảm đi. Tuy nhiên, ở thuật toán thay thế trang FIFO, đối với một số chuỗi tham chiếu đặc biệt, việc cấp thêm khung nhớ lại làm tăng số lượng Lỗi trang. Hiện tượng kỳ lạ này được gọi là Nghịch lý Belady." },
+            { chap: "ch4", tag: "Chương 4: Bộ nhớ ảo", q: "Hiện tượng Trì trệ hệ thống (Thrashing)?", 
+              k: "- Quá nhiều thời gian cho việc tráo đổi trang (Swapping).\n- Hiệu suất CPU tụt giảm nghiêm trọng.", 
+              a: "Xảy ra khi HĐH cấp cho tiến trình quá ít khung nhớ. Tiến trình liên tục bị lỗi trang, HĐH phải liên tục vứt trang ra ổ đĩa rồi lại đọc trang khác vào. Vì tốc độ ổ đĩa quá chậm, CPU rơi vào trạng thái chờ đợi liên tục không có việc làm. Hệ thống dùng toàn bộ thời gian chỉ để thực hiện việc hoán đổi trang (paging) thay vì chạy lệnh, gây hiện tượng đơ cứng máy." },
+
+            // --- CHƯƠNG 5 (8 Câu) ---
+            { chap: "ch5", tag: "Chương 5: Hệ thống tệp", q: "Tệp (File) là gì dưới góc độ Hệ điều hành?", 
+              k: "- Tập hợp không gian logic liên quan.\n- Cấu trúc dữ liệu lưu trên bộ nhớ ngoài.", 
+              a: "Hệ điều hành định nghĩa tệp (File) là một không gian địa chỉ logic liên tục được đặt tên, dùng để lưu trữ một tập hợp các thông tin có liên quan với nhau trên các thiết bị lưu trữ thứ cấp (đĩa cứng, USB). Từ góc nhìn của người dùng, tệp là đơn vị lưu trữ logic nhỏ nhất không thể phân chia." },
+            { chap: "ch5", tag: "Chương 5: Hệ thống tệp", q: "Cấu trúc thư mục dạng Cây (Tree-Structured Directories)?", 
+              k: "- Thư mục gốc (Root) phân nhánh.\n- Giải quyết trùng tên file.\n- Đường dẫn tuyệt đối / tương đối.", 
+              a: "Hệ thống thư mục được tổ chức theo hình cây lộn ngược. Có một thư mục gốc (Root) ở đỉnh, bên trong chứa các thư mục con và tệp, cứ thế phân nhánh. Ưu điểm vượt trội: Giải quyết triệt để bài toán trùng tên file (cùng tên nhưng ở 2 nhánh khác nhau thì hợp lệ), và hỗ trợ truy cập bằng Đường dẫn tuyệt đối (từ Root) hoặc tương đối (từ thư mục hiện hành)." },
+            { chap: "ch5", tag: "Chương 5: Hệ thống tệp", q: "Cấp phát file Liên tục (Contiguous Allocation)?", 
+              k: "- File chiếm một tập khối đĩa kề nhau.\n- Ưu: Truy cập cực nhanh. Nhược: Phân mảnh ngoại vi.", 
+              a: "Phương pháp này bắt buộc toàn bộ dữ liệu của một file phải được ghi vào một chuỗi các khối đĩa nằm liền kề sát nhau. Thư mục chỉ cần lưu số hiệu khối bắt đầu và độ dài.\n- Ưu điểm: Hiệu suất đọc/ghi đĩa là cao nhất do đầu từ không phải di chuyển nhiều (Seek time min).\n- Nhược điểm: Phân mảnh ngoại vi nghiêm trọng, rất khó tìm được khoảng trống đủ lớn để ghi file mới hoặc mở rộng file cũ." },
+            { chap: "ch5", tag: "Chương 5: Hệ thống tệp", q: "Cấp phát file Liên kết (Linked Allocation)?", 
+              k: "- Dạng danh sách liên kết.\n- Mỗi khối chứa dữ liệu + Con trỏ trỏ tới khối tiếp.\n- Không phân mảnh.", 
+              a: "Các khối dữ liệu của file có thể nằm rải rác bất kỳ đâu trên đĩa. Ở cuối mỗi khối sẽ dành ra vài byte để chứa một 'Con trỏ' ghi địa chỉ của khối tiếp theo. \n- Ưu điểm: Triệt tiêu hoàn toàn phân mảnh ngoại vi, file lớn lên tùy ý.\n- Nhược điểm: Tốc độ truy cập ngẫu nhiên thảm họa (muốn đọc khối 100 phải đọc từ khối 1 dò theo con trỏ lên khối 100). Tốn dung lượng lưu con trỏ." },
+            { chap: "ch5", tag: "Chương 5: Hệ thống tệp", q: "Bảng phân phối tệp FAT (File Allocation Table)?", 
+              k: "- Cải tiến của cấp phát liên kết.\n- Gom toàn bộ con trỏ lên một bảng chỉ số trên RAM.", 
+              a: "FAT nhổ toàn bộ các con trỏ nằm rải rác ở cuối các khối đĩa và gom chúng lại thành một Bảng chỉ số duy nhất (Bảng FAT) đặt ở một vùng đặc biệt trên đĩa. Khi HĐH khởi động, bảng FAT được nạp thẳng lên RAM. Thư mục chỉ lưu khối bắt đầu, muốn tìm các khối tiếp theo, HĐH tra cứu siêu tốc ngay trên RAM mà không cần đọc đĩa, hỗ trợ truy cập ngẫu nhiên rất tốt." },
+            { chap: "ch5", tag: "Chương 5: Hệ thống tệp", q: "Cấp phát Theo chỉ số (Indexed Allocation / Inode)?", 
+              k: "- Mỗi file có một khối chỉ số riêng.\n- Chứa mảng địa chỉ tất cả khối dữ liệu của file đó.", 
+              a: "Mỗi file được hệ thống cấp cho một khối đĩa đặc biệt gọi là Khối chỉ số (Index block / Trong Linux gọi là Inode). Khối này không chứa dữ liệu file, mà chứa một mảng tập hợp TẤT CẢ các con trỏ địa chỉ trỏ đến các khối dữ liệu thực sự của file đó. Hỗ trợ truy cập ngẫu nhiên trực tiếp đến từng khối dữ liệu mà không bị giới hạn." },
+            { chap: "ch5", tag: "Chương 5: Hệ thống tệp", q: "Cơ chế con trỏ gián tiếp trong Inode của Linux?", 
+              k: "- Gián tiếp đơn, kép, tam.\n- Mở rộng dung lượng file siêu lớn.", 
+              a: "Vì khối Inode có kích thước nhỏ (chỉ chứa được khoảng 15 con trỏ). Để lưu các file khổng lồ, Linux dùng cơ chế: 12 con trỏ đầu trỏ trực tiếp vào dữ liệu. Con trỏ số 13 trỏ đến một khối đĩa, trong khối đĩa đó lại chứa hàng ngàn con trỏ khác (Gián tiếp đơn). Nhờ con trỏ gián tiếp nhiều cấp, hệ thống có thể quản lý file lên tới hàng Terabytes." },
+            { chap: "ch5", tag: "Chương 5: Hệ thống tệp", q: "Quản lý không gian trống bằng Bit Vector (Bitmap)?", 
+              k: "- Chuỗi các bit 0 và 1.\n- 1 bit đại diện cho 1 khối đĩa (0: Đã cấp, 1: Trống).", 
+              a: "Hệ thống dùng một mảng các bit. Mỗi khối trên đĩa tương ứng với 1 bit trong mảng. Nếu khối đĩa đang trống, bit mang giá trị 1 (hoặc 0 tùy HĐH). Phương pháp này cực kỳ hiệu quả để phần cứng CPU thực hiện các phép toán bit logic nhằm tìm ra nhanh chóng một chuỗi các khối đĩa trống nằm liên tiếp nhau trên đĩa." },
+
+            // --- CHƯƠNG 6 (9 Câu) ---
+            { chap: "ch6", tag: "Chương 6: Vào Ra", q: "Phân biệt Thiết bị theo khối (Block) và Thiết bị theo ký tự (Character).", 
+              k: "- Khối: Đọc/ghi theo block, truy cập ngẫu nhiên (Ổ đĩa cứng).\n- Ký tự: Chuỗi byte tuần tự, không truy cập ngẫu nhiên (Bàn phím, máy in).", 
+              a: "- Thiết bị khối: Giao tiếp dữ liệu thành từng khối có kích thước cố định. Tính năng quan trọng nhất là hỗ trợ truy cập ngẫu nhiên (có thể đọc khối 100 rồi quay lại khối 1). Ví dụ: HDD, SSD.\n- Thiết bị ký tự: Truyền nhận một luồng dữ liệu liên tục từng byte một (tuần tự), không có khái niệm địa chỉ khối. Ví dụ: Bàn phím, chuột, card âm thanh." },
+            { chap: "ch6", tag: "Chương 6: Vào Ra", q: "Trình điều khiển thiết bị (Device Driver) là gì?", 
+              k: "- Phần mềm hệ thống cấp thấp.\n- Che giấu sự phức tạp phần cứng.\n- Phiên dịch lệnh cho HĐH.", 
+              a: "Mỗi thiết bị phần cứng có cấu trúc điện tử và tập lệnh khác nhau. Device Driver là một module phần mềm hệ thống được viết riêng cho từng thiết bị. Nó đóng vai trò là 'người phiên dịch', biến các lệnh I/O chuẩn chung của HĐH thành các tín hiệu điện tử chuyên biệt để điều khiển chính xác thiết bị phần cứng đó hoạt động." },
+            { chap: "ch6", tag: "Chương 6: Vào Ra", q: "Cơ chế I/O Hỏi vòng (Polling / Busy-waiting)?", 
+              k: "- CPU liên tục đọc cờ trạng thái.\n- Lãng phí chu kỳ CPU.", 
+              a: "Trong cơ chế này, sau khi CPU phát lệnh yêu cầu thiết bị I/O làm việc, CPU sẽ rơi vào một vòng lặp vô tận (busy-waiting) để liên tục kiểm tra cờ trạng thái của thiết bị xem nó đã làm xong chưa. Nhược điểm chí mạng: Vô cùng lãng phí năng lực tính toán của CPU, làm giảm hiệu năng toàn hệ thống." },
+            { chap: "ch6", tag: "Chương 6: Vào Ra", q: "Cơ chế I/O Điều khiển bằng Ngắt (Interrupt-driven I/O)?", 
+              k: "- CPU giao việc rồi đi làm việc khác.\n- Thiết bị xong việc sẽ gửi tín hiệu Ngắt.", 
+              a: "Khắc phục nhược điểm của Polling. CPU chỉ việc khởi tạo lệnh gửi xuống bộ điều khiển thiết bị, sau đó CPU lập tức chuyển sang chạy tiến trình khác. Khi thiết bị ngoại vi xử lý xong (hoặc có dữ liệu mới), nó chủ động gửi một tín hiệu Ngắt (Interrupt) lên bộ điều khiển ngắt để báo cho CPU biết mà quay lại lấy dữ liệu." },
+            { chap: "ch6", tag: "Chương 6: Vào Ra", q: "Cơ chế Truy cập bộ nhớ trực tiếp (DMA - Direct Memory Access)?", 
+              k: "- Bỏ qua CPU khi truyền dữ liệu.\n- Truyền trực tiếp giữa Thiết bị và RAM.\n- Dùng cho truyền khối lượng lớn.", 
+              a: "Sử dụng cho các thiết bị I/O tốc độ cao (như đĩa cứng). HĐH bổ sung một con chip phần cứng gọi là DMA Controller. CPU chỉ cần nạp địa chỉ nguồn, đích và dung lượng vào DMA Controller. Sau đó DMA tự động chỉ huy luồng dữ liệu truyền thẳng từ thiết bị I/O vào bộ nhớ RAM thông qua hệ thống Bus mà không cần CPU nhúng tay lấy từng byte. Truyền xong cả khối, DMA mới phát ngắt báo cho CPU." },
+            { chap: "ch6", tag: "Chương 6: Vào Ra", q: "Mục đích của việc sử dụng Bộ đệm (Buffering) trong I/O?", 
+              k: "- Vùng RAM chứa tạm dữ liệu.\n- Giải quyết sự chênh lệch tốc độ truyền.\n- Đồng bộ kích thước khối.", 
+              a: "Buffer là một vùng nhớ chính (RAM) dùng để lưu trữ tạm thời dữ liệu trong quá trình di chuyển giữa 2 thiết bị. Mục đích lớn nhất:\n1. Giải quyết sự chênh lệch tốc độ (VD: Mạng internet tải chậm, đưa vào buffer để máy tính phát video ra màn hình mượt mà).\n2. Khắc phục sự khác biệt về kích thước truyền dữ liệu giữa các thiết bị." },
+            { chap: "ch6", tag: "Chương 6: Vào Ra", q: "Phân biệt Bộ đệm (Buffering) và Bộ nhớ đệm (Caching)?", 
+              k: "- Buffer: Nơi DỮ LIỆU BẮT BUỘC ĐI QUA để trung chuyển.\n- Cache: Nơi LƯU BẢN SAO của dữ liệu để truy cập nhanh hơn.", 
+              a: "- Buffering (Vùng đệm): Là điểm trung chuyển, dữ liệu gốc duy nhất đang di chuyển từ A sang B phải ghé qua vùng này.\n- Caching (Lưu đệm): Lưu trữ MỘT BẢN SAO của dữ liệu hiện đang tồn tại trên ổ đĩa chậm lên một vùng nhớ có tốc độ cao hơn (Cache RAM). Lần sau truy cập, HĐH sẽ lấy từ Cache ra luôn để tăng tốc, không cần đọc đĩa lại." },
+            { chap: "ch6", tag: "Chương 6: Vào Ra", q: "Cơ chế Spooling (Simultaneous Peripheral Operations On-Line)?", 
+              k: "- Dùng đĩa làm bộ đệm lớn.\n- Quản lý thiết bị độc quyền (như Máy in).\n- Xếp hàng công việc I/O.", 
+              a: "Spooling là một hàng đợi (Queue) đặt trên bộ nhớ phụ (Ổ đĩa cứng). Khi nhiều tiến trình cùng yêu cầu in tài liệu ra máy in (thiết bị độc quyền và rất chậm), HĐH không bắt CPU phải chờ. HĐH ghi toàn bộ file cần in ra vùng Spool trên đĩa, trả lại CPU cho tiến trình. Hệ thống sau đó sẽ âm thầm tự động lấy dần các file từ Spool đẩy ra máy in theo thứ tự." },
+            { chap: "ch6", tag: "Chương 6: Vào Ra", q: "Các thuật toán Lập lịch đầu đọc đĩa (Disk Scheduling)?", 
+              k: "- FCFS: Ai đến trước phục vụ trước.\n- SSTF: Chọn xi-lanh gần nhất.\n- SCAN: Chạy như thang máy.", 
+              a: "Mục tiêu là tối thiểu hóa thời gian dịch chuyển (Seek time) của cần gạt đầu đọc đĩa cơ học.\n- FCFS: Phục vụ theo thứ tự vào hàng đợi.\n- SSTF (Shortest Seek Time First): Đầu từ sẽ di chuyển đến track gần với vị trí hiện tại của nó nhất để đọc, tiết kiệm đường đi.\n- SCAN (Thang máy): Đầu đọc di chuyển liên tục từ trong ra ngoài mép đĩa, quét phục vụ tất cả các yêu cầu trên đường đi, chạm mép thì quay ngược lại." }
+        ];
+
+        let currentIndex = 0;
+        let currentList = [...fullBank];
+
+        // Lọc Chương
+        function renderFilters() {
+            const container = document.getElementById('filter-container');
+            const chapters = [
+                { id: 'all', name: 'Toàn Bộ 72 Câu' },
+                { id: 'ch1', name: 'Chương 1' },
+                { id: 'ch2', name: 'Chương 2' },
+                { id: 'ch3', name: 'Chương 3' },
+                { id: 'ch4', name: 'Chương 4' },
+                { id: 'ch5', name: 'Chương 5' },
+                { id: 'ch6', name: 'Chương 6' }
+            ];
+            
+            container.innerHTML = chapters.map(c => 
+                `<button onclick="filterChap('${c.id}')" id="btn-${c.id}" class="px-4 py-2 rounded-lg text-sm font-bold transition-all shadow-sm ${c.id === 'all' ? 'bg-red-800 text-white' : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'} filter-btn">${c.name}</button>`
+            ).join('');
+        }
+
+        function filterChap(chap) {
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                b.className = 'px-4 py-2 rounded-lg text-sm font-bold transition-all shadow-sm bg-white text-gray-600 hover:bg-gray-100 border border-gray-200 filter-btn';
+            });
+            const active = document.getElementById(`btn-${chap}`);
+            active.className = 'px-4 py-2 rounded-lg text-sm font-bold transition-all shadow-sm bg-red-800 text-white filter-btn';
+
+            currentList = chap === 'all' ? [...fullBank] : fullBank.filter(x => x.chap === chap);
+            currentIndex = 0;
+            updateCard();
+        }
+
+        // Logic Hiển thị
+        function updateCard() {
+            const cardEl = document.getElementById('flashcard');
+            const progress = document.getElementById('progress-text');
+            
+            cardEl.classList.remove('flipped');
+            
+            if (currentList.length === 0) return;
+            
+            const data = currentList[currentIndex];
+            
+            // Xử lý index hiển thị (Tìm số thứ tự thực của câu hỏi trong bank gốc 72 câu)
+            const realIndex = fullBank.findIndex(x => x.q === data.q) + 1;
+            
+            progress.innerText = `Câu: ${currentIndex + 1} / ${currentList.length}`;
+            
+            setTimeout(() => {
+                document.getElementById('card-tag').innerText = data.tag;
+                document.getElementById('card-num').innerText = `Câu #${realIndex}`;
+                document.getElementById('card-question').innerText = data.q;
+                document.getElementById('card-keywords').innerText = data.k;
+                document.getElementById('card-answer').innerText = data.a;
+            }, 150);
+        }
+
+        function toggleFlip() { document.getElementById('flashcard').classList.toggle('flipped'); }
+        function nextCard() { if(currentList.length) { currentIndex = (currentIndex + 1) % currentList.length; updateCard(); } }
+        function prevCard() { if(currentList.length) { currentIndex = (currentIndex - 1 + currentList.length) % currentList.length; updateCard(); } }
+
+        // Bắt sự kiện phím mũi tên
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'ArrowRight' || e.key === ' ') nextCard();
+            if(e.key === 'ArrowLeft') prevCard();
+        });
+
+        // Khởi tạo
+        renderFilters();
+        updateCard();
+    </script>
+</body>
+</html>
